@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using NewTransactionModel.Model;
 using NewTransactionModel.Model.Block;
+using NewTransactionModel.Model.Block.Signed;
 using NewTransactionModel.Model.Block.Unsigned;
 using NewTransactionModel.Model.Transaction;
 using NewTransactionModel.Model.Transaction.Signed;
@@ -37,6 +38,10 @@ var genesisBlockWithTransactions = genesisBlock with
     Transactions = [..genesisBlock.Transactions, validatedTransaction]
 };
 
-var genesisBlockJson = JsonSerializer.Serialize(genesisBlockWithTransactions);
-Console.WriteLine(genesisBlockJson);
+var signedBlock = genesisBlockWithTransactions.SignIt(new SignatureInfo("BlockProducer", "BlockProducer's signature"));
+
+var finalizedBlock = signedBlock.FinalizeIt();
+var finalizedBlockJson = JsonSerializer.Serialize(finalizedBlock);
+
+Console.WriteLine(finalizedBlockJson);
 

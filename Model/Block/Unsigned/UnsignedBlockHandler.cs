@@ -1,3 +1,4 @@
+using NewTransactionModel.Model.Block.Signed;
 using NewTransactionModel.Model.Transaction;
 using NewTransactionModel.Model.Transaction.Unsigned;
 
@@ -47,4 +48,7 @@ public static class UnsignedBlockHandler
             nextBlockId,
             []);
     }
+
+    public static SignedBlock SignIt(this UnsignedBlock unsignedBlock, SignatureInfo blockProducerSignature) => 
+        new(unsignedBlock, blockProducerSignature);
 }

@@ -1,5 +1,4 @@
 using NewTransactionModel.Model.Transaction;
-using NewTransactionModel.Model.Transaction.Unsigned;
 
 namespace NewTransactionModel.Model.Block.Unsigned;
 
