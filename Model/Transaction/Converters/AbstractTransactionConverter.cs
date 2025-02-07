@@ -19,12 +19,6 @@ public class AbstractTransactionConverter : JsonConverter<AbstractTransaction>
         }
 
         throw new InvalidOperationException();
-        // if (transactionIdString is null)
-        // {
-        //     return TransactionId.Empty;
-        // }
-
-        // return new TransactionId(Guid.Parse(transactionIdString));
     }
 
     public override void Write(Utf8JsonWriter writer, AbstractTransaction value, JsonSerializerOptions options)

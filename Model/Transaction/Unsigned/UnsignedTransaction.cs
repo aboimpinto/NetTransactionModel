@@ -8,12 +8,12 @@ public record UnsignedTransaction<T> : AbstractTransaction
     public UnsignedTransaction(
         TransactionId transactionId,
         Guid payloadKind,
-        Timestamp creationTimeStamp,
+        Timestamp TransactionTimeStamp,
         T payload) : 
         base(
             transactionId, 
             payloadKind, 
-            creationTimeStamp)
+            TransactionTimeStamp)
     {
         Payload = payload;
     }

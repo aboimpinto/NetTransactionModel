@@ -8,7 +8,4 @@ public record UnsignedBlock(
     BlockIndex BlockIndex,
     BlockId PreviousBlockId,
     BlockId NextBlockId,
-    AbstractTransaction[] Transactions)
-{
-    
-}
+    AbstractTransaction[] Transactions);

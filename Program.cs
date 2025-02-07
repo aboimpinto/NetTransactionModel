@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using NewTransactionModel.Model;
 using NewTransactionModel.Model.Block;
+using NewTransactionModel.Model.Block.Finalized;
 using NewTransactionModel.Model.Block.Signed;
 using NewTransactionModel.Model.Block.Unsigned;
 using NewTransactionModel.Model.Transaction;
@@ -17,7 +18,7 @@ var genesisBlock = UnsignedBlockHandler.CreateGenesis(
 // Transaction example usage
 // Step 1: Client creates an unsigned transaction
 var unsignedTransaction = UnsignedTransactionHandler.CreateNew(
-    Guid.NewGuid(),
+    RewardPayloadHandler.RewardPayloadKind,
     Timestamp.Current,
     new RewardPayload("HUSH", "5"));
 
@@ -45,3 +46,17 @@ var finalizedBlockJson = JsonSerializer.Serialize(finalizedBlock);
 
 Console.WriteLine(finalizedBlockJson);
 
+var deserializedBlock = JsonSerializer.Deserialize<FinalizedBlock>(finalizedBlockJson);
+var deserializedBlockJson = JsonSerializer.Serialize(deserializedBlock);
+
+Console.WriteLine();
+Console.WriteLine();
+
+Console.WriteLine(deserializedBlockJson);
+
+if (finalizedBlock == deserializedBlock)
+{
+    Console.WriteLine("Hashes are equal");
+}
+    
+Console.ReadLine();

@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -18,7 +19,7 @@ public class TimestampConverter : JsonConverter<Timestamp>
             return Timestamp.Empty;
         }
 
-        return new Timestamp(DateTime.Parse(timestampString));
+        return new Timestamp(DateTime.Parse(timestampString, null, DateTimeStyles.AssumeUniversal));
     }
 
     public override void Write(Utf8JsonWriter writer, Timestamp value, JsonSerializerOptions options)
