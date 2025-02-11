@@ -13,9 +13,13 @@ public class AbstractTransactionConverter : JsonConverter<AbstractTransaction>
         var payloadKindElement = jsonDocument.RootElement;
         var payloadKind = payloadKindElement.GetProperty("PayloadKind").GetString();
 
-        if (payloadKind == "e054b791-5e99-41aa-b870-a7201bc85ec3")
+        if (payloadKind == RewardPayloadHandler.RewardPayloadKind.ToString())
         {
             return JsonSerializer.Deserialize<ValidatedTransaction<RewardPayload>>(jsonDocument.RootElement.GetRawText());
+        }
+        else if (payloadKind == EmptyPayloadHandler.EmptyPayloadKind.ToString())
+        {
+            return JsonSerializer.Deserialize<ValidatedTransaction<EmptyPayload>>(jsonDocument.RootElement.GetRawText());
         }
 
         throw new InvalidOperationException();

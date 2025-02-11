@@ -4,7 +4,7 @@ namespace NewTransactionModel.Model.Transaction.Signed;
 
 // Step 2: Client signs the transaction
 public record SignedTransaction<T>: UnsignedTransaction<T>
-    where T: TransactionPayloadKind
+    where T: ITransactionPayloadKind
 {
     public SignatureInfo UserSignature { get; init; }
 
@@ -15,7 +15,8 @@ public record SignedTransaction<T>: UnsignedTransaction<T>
             unsignedTransaction.TransactionId, 
             unsignedTransaction.PayloadKind,
             unsignedTransaction.TransactionTimeStamp, 
-            unsignedTransaction.Payload)
+            unsignedTransaction.Payload,
+            unsignedTransaction.PayloadSize)
     {
         this.UserSignature = signature;
     }

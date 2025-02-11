@@ -7,4 +7,9 @@ namespace NewTransactionModel.Model.Transaction;
 public abstract record AbstractTransaction(
     TransactionId TransactionId, 
     Guid PayloadKind, 
-    Timestamp TransactionTimeStamp);
+    Timestamp TransactionTimeStamp)
+{
+
+    public abstract bool CheckSignature();
+
+}

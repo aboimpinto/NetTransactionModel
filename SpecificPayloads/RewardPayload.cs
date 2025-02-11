@@ -2,7 +2,7 @@ using NewTransactionModel.Model.Transaction;
 
 namespace NewTransactionModel.SpecificPayloads;
 
-public record RewardPayload(string Token, string Amount) : TransactionPayloadKind;
+public record RewardPayload(string Token, string Amount) : ITransactionPayloadKind;
 
 public static class RewardPayloadHandler
 {
