@@ -1,4 +1,3 @@
-using System.Text.Json;
 using NewTransactionModel.Model.Block.Finalized;
 using NewTransactionModel.Model.Block.Unsigned;
 
@@ -22,19 +21,10 @@ public static class SignedBlockHandler
             signedBlock.NextBlockId,
             signedBlock.Transactions);
 
-    public static bool CheckBlockSignature(this SignedBlock signedBlock)
-    {
-        var unsignedBlock = signedBlock.ExtractUnsignedBlock();
-
-        return SigningKeys.VerifySignature(
-            JsonSerializer.Serialize(unsignedBlock), 
-            signedBlock.BlockProducerSignature.Signature, 
-            signedBlock.BlockProducerSignature.Signatory);
-    }
-
     public static bool IsBlockValid(this FinalizedBlock finalizedBlock) => 
-        !finalizedBlock.CheckBlockHashAndSignature() ||
-        !finalizedBlock.Transactions.All(transaction => transaction.CheckSignature());
+        finalizedBlock.CheckBlockHashAndSignature() &&
+        finalizedBlock.Transactions
+            .All(transaction => transaction.CheckValidatorSignature() || transaction.CheckUserSignature());
 
     private static bool CheckBlockHashAndSignature(this FinalizedBlock finalizedBlock) =>
         finalizedBlock.IsBlockHashValid() &&
@@ -48,7 +38,7 @@ public static class SignedBlockHandler
     }
 
     public static bool IsBlockSignatureValid(this FinalizedBlock finalizedBlock) => 
-        finalizedBlock.ExtractSignedBlock().Item1.CheckBlockSignature();
+        finalizedBlock.ExtractSignedBlock().Item1.CheckSignature();
 
     public static bool CheckHash(this SignedBlock signedBlock, string hash) => 
         signedBlock.GetHashCode().ToString() == hash;

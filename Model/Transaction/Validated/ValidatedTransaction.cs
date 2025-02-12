@@ -1,10 +1,9 @@
-using System.Text.Json;
 using System.Text.Json.Serialization;
-using NewTransactionModel;
-using NewTransactionModel.Model;
-using NewTransactionModel.Model.Transaction;
 using NewTransactionModel.Model.Transaction.Signed;
 using NewTransactionModel.Model.Transaction.Unsigned;
+using NewTransactionModel.Model.Transaction.Validated;
+
+namespace NewTransactionModel.Model.Transaction.Validated;
 
 // Step 3: Validator validates the transaction
 public record ValidatedTransaction<T>: SignedTransaction<T>
@@ -45,34 +44,45 @@ public record ValidatedTransaction<T>: SignedTransaction<T>
         this.ValidatorSignature = ValidatorSignature;
     }
 
-    public override bool CheckSignature()
-    {
-        var signedTransaction = new SignedTransaction<T>(
-            new UnsignedTransaction<T>(
-                this.TransactionId, 
-                this.PayloadKind,
-                this.TransactionTimeStamp, 
-                this.Payload,
-                this.PayloadSize), 
-            this.UserSignature);
+    // public override bool CheckSignature()
+    // {
+    //     var signedTransaction = new SignedTransaction<T>(
+    //         new UnsignedTransaction<T>(
+    //             this.TransactionId, 
+    //             this.PayloadKind,
+    //             this.TransactionTimeStamp, 
+    //             this.Payload,
+    //             this.PayloadSize), 
+    //         this.UserSignature);
 
-        var isValidatorSignatureSignatureValid = SigningKeys.VerifySignature(
-            JsonSerializer.Serialize(signedTransaction), 
-            this.ValidatorSignature.Signature, 
-            this.ValidatorSignature.Signatory);
+    //     var isValidatorSignatureSignatureValid = SigningKeys.VerifySignature(
+    //         signedTransaction.ToJson(), 
+    //         this.ValidatorSignature.Signature, 
+    //         this.ValidatorSignature.Signatory);
 
-        var usignedTransaction = new UnsignedTransaction<T>(
-            this.TransactionId, 
-                this.PayloadKind,
-                this.TransactionTimeStamp, 
-                this.Payload,
-                this.PayloadSize);
+    //     var usignedTransaction = new UnsignedTransaction<T>(
+    //         this.TransactionId, 
+    //             this.PayloadKind,
+    //             this.TransactionTimeStamp, 
+    //             this.Payload,
+    //             this.PayloadSize);
 
-        var isUserSignatureSignatureValid = SigningKeys.VerifySignature(
-            JsonSerializer.Serialize(usignedTransaction), 
-            this.UserSignature.Signature, 
-            this.UserSignature.Signatory);
+    //     var isUserSignatureSignatureValid = SigningKeys.VerifySignature(
+    //         usignedTransaction.ToJson(), 
+    //         this.UserSignature.Signature, 
+    //         this.UserSignature.Signatory);
 
-        return isValidatorSignatureSignatureValid && isUserSignatureSignatureValid;
-    }
+    //     return isValidatorSignatureSignatureValid && isUserSignatureSignatureValid;
+    // }
+
+    public bool IsValidatorSignatureValid() => 
+        this
+            .ExtractSignedTransaction()
+            .CheckValidatorSignature();
+
+    public bool IsUserSignatureValid() => 
+        this
+            .ExtractSignedTransaction()
+            .CheckUserSignature();
+
 }

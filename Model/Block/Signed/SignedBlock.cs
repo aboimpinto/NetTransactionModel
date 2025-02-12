@@ -33,4 +33,14 @@ public record SignedBlock : UnsignedBlock
     {
         this.BlockProducerSignature = BlockProducerSignature;
     }
+
+    public bool CheckSignature()
+    {
+        var unsignedBlock = this.ExtractUnsignedBlock();
+
+        return SigningKeys.VerifySignature(
+            unsignedBlock.ToJson(), 
+            this.BlockProducerSignature.Signature, 
+            this.BlockProducerSignature.Signatory);
+    }
 }

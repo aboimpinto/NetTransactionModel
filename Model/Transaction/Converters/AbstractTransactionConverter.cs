@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using NewTransactionModel.Model.Transaction.Validated;
 using NewTransactionModel.SpecificPayloads;
 
 namespace NewTransactionModel.Model.Transaction.Converters;

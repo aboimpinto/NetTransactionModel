@@ -24,7 +24,7 @@ public static class UnsignedTransactionHandler
         where T : ITransactionPayloadKind =>
         new(
             unsignedTransaction,
-            new SignatureInfo(publickey, SigningKeys.SignMessage(JsonSerializer.Serialize(unsignedTransaction), privateKey)));
+            new SignatureInfo(publickey, unsignedTransaction.CreateSignature(privateKey)));
 
     private static long GetObjectSize<T>(T obj)
     {

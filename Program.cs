@@ -4,7 +4,6 @@ using System.Text.Json;
 using NewTransactionModel;
 using NewTransactionModel.Model;
 using NewTransactionModel.Model.Block;
-using NewTransactionModel.Model.Block.Finalized;
 using NewTransactionModel.Model.Block.Signed;
 using NewTransactionModel.Model.Block.Unsigned;
 using NewTransactionModel.Model.Transaction;
@@ -94,7 +93,7 @@ stopwatchAdd.Stop();
 TimeSpan elapsedTimeAdd = stopwatchAdd.Elapsed;
 
 
-Console.WriteLine($"Time after: {endTimeAdd.ToString("HH:mm:ss.fff")}");
+Console.WriteLine($"Time after: {endTimeAdd:HH:mm:ss.fff}");
 Console.WriteLine($"Elapsed time for adding EmptyTransactions to the block: {elapsedTimeAdd.TotalMilliseconds} ms"); 
 Console.WriteLine($"Elapsed time for adding EmptyTransactions to the block (Stopwatch): {stopwatchAdd.ElapsedMilliseconds} ms"); 
 
@@ -120,5 +119,6 @@ Console.WriteLine();
 Console.WriteLine("Checking block consistency...");
 
 var blockChecked = finalizedBlock.IsBlockValid();
+Console.WriteLine($"Block is valid: {blockChecked}");
 
 Console.ReadLine();

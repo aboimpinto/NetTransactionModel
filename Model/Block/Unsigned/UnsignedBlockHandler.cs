@@ -57,5 +57,5 @@ public static class UnsignedBlockHandler
     public static SignedBlock SignIt(this UnsignedBlock unsignedBlock, string publickey, string privateKey) => 
         new(
             unsignedBlock, 
-            new SignatureInfo(publickey, SigningKeys.SignMessage(JsonSerializer.Serialize(unsignedBlock), privateKey)));
+            new SignatureInfo(publickey, unsignedBlock.CreateSignature(privateKey)));
 }

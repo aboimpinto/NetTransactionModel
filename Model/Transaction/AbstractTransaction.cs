@@ -10,6 +10,12 @@ public abstract record AbstractTransaction(
     Timestamp TransactionTimeStamp)
 {
 
-    public abstract bool CheckSignature();
+    public abstract bool CheckValidatorSignature();
+
+    public abstract bool CheckUserSignature();
+
+    public abstract string ToJson();
+
+    public abstract string CreateSignature(string privateKey);
 
 }

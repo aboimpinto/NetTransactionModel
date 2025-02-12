@@ -1,4 +1,4 @@
-using System.Text.Json;
+using NewTransactionModel.Model.Transaction.Validated;
 
 namespace NewTransactionModel.Model.Transaction.Signed;
 
@@ -14,5 +14,5 @@ public static class SignedTransactionHandler
         where T : ITransactionPayloadKind =>
         new(
             signedTransaction,
-            new SignatureInfo(publickey, SigningKeys.SignMessage(JsonSerializer.Serialize(signedTransaction), privateKey)));
+            new SignatureInfo(publickey, signedTransaction.CreateSignature(privateKey)));
 }

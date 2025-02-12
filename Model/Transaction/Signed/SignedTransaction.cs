@@ -1,3 +1,4 @@
+using System.Text.Json;
 using NewTransactionModel.Model.Transaction.Unsigned;
 
 namespace NewTransactionModel.Model.Transaction.Signed;
@@ -20,6 +21,8 @@ public record SignedTransaction<T>: UnsignedTransaction<T>
     {
         this.UserSignature = signature;
     }
+
+    public override string ToJson() => JsonSerializer.Serialize(this);
 }
 
 
