@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics;
-using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
 using NewTransactionModel;
 using NewTransactionModel.Model;
 using NewTransactionModel.Model.Block;
@@ -10,6 +10,10 @@ using NewTransactionModel.Model.Transaction;
 using NewTransactionModel.Model.Transaction.Signed;
 using NewTransactionModel.Model.Transaction.Unsigned;
 using NewTransactionModel.SpecificPayloads;
+
+var dbContext = new HushNetworkDbContext();
+// var isDatabaseCreated = dbContext.Database.EnsureCreated();
+dbContext.Database.Migrate();
 
 // var nbrTransactionsPerBlock = 10000000;
 // var nbrTransactionsPerBlock = 1000000;
@@ -98,12 +102,13 @@ Console.WriteLine($"Elapsed time for adding EmptyTransactions to the block: {ela
 Console.WriteLine($"Elapsed time for adding EmptyTransactions to the block (Stopwatch): {stopwatchAdd.ElapsedMilliseconds} ms"); 
 
 
-var signedBlock = withAllTransactions.SignIt(userKeys.PublicAddress, userKeys.PrivateKey);
+var signedBlock = withAllTransactions
+    .SignIt(userKeys.PublicAddress, userKeys.PrivateKey);
 
-var finalizedBlock = signedBlock.FinalizeIt();
-var finalizedBlockJson = JsonSerializer.Serialize(finalizedBlock);
+var finalizedBlock = signedBlock
+    .FinalizeIt();
 
-Console.WriteLine(finalizedBlockJson);
+Console.WriteLine(finalizedBlock.ToJson());
 
 // var deserializedBlock = JsonSerializer.Deserialize<FinalizedBlock>(finalizedBlockJson);
 // var deserializedBlockJson = JsonSerializer.Serialize(deserializedBlock);
@@ -120,5 +125,8 @@ Console.WriteLine("Checking block consistency...");
 
 var blockChecked = finalizedBlock.IsBlockValid();
 Console.WriteLine($"Block is valid: {blockChecked}");
+
+// dbContext.Blocks.Add(finalizedBlock.ToBlockEntity());
+// dbContext.SaveChanges();
 
 Console.ReadLine();

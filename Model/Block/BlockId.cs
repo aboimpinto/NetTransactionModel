@@ -12,3 +12,8 @@ public readonly record struct BlockId(Guid Value)
 
     public override string ToString() => this.Value.ToString();
 }
+
+public static class BlockIdHandler
+{
+    public static BlockId CreateFromString(string value) => new(Guid.Parse(value));
+}
