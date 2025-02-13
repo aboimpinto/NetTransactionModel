@@ -22,7 +22,7 @@ var transactions = new ConcurrentBag<AbstractTransaction>();
 DateTime startTimeGeneration = DateTime.Now;
 Stopwatch stopwatchGeneration = Stopwatch.StartNew(); // More precise timing
 
-Console.WriteLine($"Generation starting time before: {startTimeGeneration.ToString("HH:mm:ss.fff")}"); // Include milliseconds
+Console.WriteLine($"Generation starting time before: {startTimeGeneration:HH:mm:ss.fff}"); // Include milliseconds
 
 for(int i = 0; i < nbrTransactionsPerBlock; i++)
 {
@@ -42,7 +42,7 @@ stopwatchGeneration.Stop();
 TimeSpan elapsedTimeGeneration = stopwatchGeneration.Elapsed;
 
 
-Console.WriteLine($"Time after: {endTimeGeneration.ToString("HH:mm:ss.fff")}");
+Console.WriteLine($"Time after: {endTimeGeneration:HH:mm:ss.fff}");
 Console.WriteLine($"Elapsed time for generate EmptyTransactions: {elapsedTimeGeneration.TotalMilliseconds} ms"); 
 Console.WriteLine($"Elapsed time for generate EmptyTransactions (Stopwatch): {stopwatchGeneration.ElapsedMilliseconds} ms"); 
 
@@ -55,16 +55,16 @@ var genesisBlock = UnsignedBlockHandler.CreateGenesis(
 
 // Transaction example usage
 // Step 1: Client creates an unsigned transaction
-var unsignedTransaction = UnsignedTransactionHandler.CreateNew(
-    RewardPayloadHandler.RewardPayloadKind,
-    Timestamp.Current,
-    new RewardPayload("HUSH", "5"));
+var unsignedRewardTransaction = RewardPayloadHandler
+    .CreateRewardTransaction("HUSH", DecimalStringConverter.DecimalToString(5m));
 
 // Step 2: Client signs the transaction
-var signedTransaction = unsignedTransaction.SignByUser(userKeys.PublicAddress, userKeys.PrivateKey);
+var signedRewardTransaction = unsignedRewardTransaction
+    .SignByUser(userKeys.PublicAddress, userKeys.PrivateKey);
 
 // Step 3: Validator validates the transaction
-var validatedTransaction = signedTransaction.SignByValidator(userKeys.PublicAddress, userKeys.PrivateKey);
+var validatedRewardTransaction = signedRewardTransaction
+    .SignByValidator(userKeys.PublicAddress, userKeys.PrivateKey);
 
 // var rewardTransactionJson = JsonSerializer.Serialize(validatedTransaction);
 // Console.WriteLine(rewardTransactionJson);
@@ -74,7 +74,7 @@ Console.WriteLine();
 
 var genesisBlockWithTransactions = genesisBlock with
 {
-    Transactions = [..genesisBlock.Transactions, validatedTransaction]
+    Transactions = [..genesisBlock.Transactions, validatedRewardTransaction]
 };
 
 DateTime startTimeAdd = DateTime.Now;
