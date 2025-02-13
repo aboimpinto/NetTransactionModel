@@ -1,14 +1,15 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using HushNetwork.Model;
+using HushNetwork.Model.Block;
+using HushNetwork.Model.Block.Signed;
+using HushNetwork.Model.Block.Unsigned;
+using HushNetwork.Model.Transaction;
+using HushNetwork.Model.Transaction.Signed;
+using HushNetwork.Model.Transaction.Unsigned;
+using HushNetwork.SpecificPayloads;
 using NewTransactionModel;
-using NewTransactionModel.Model;
-using NewTransactionModel.Model.Block;
-using NewTransactionModel.Model.Block.Signed;
-using NewTransactionModel.Model.Block.Unsigned;
-using NewTransactionModel.Model.Transaction;
-using NewTransactionModel.Model.Transaction.Signed;
-using NewTransactionModel.Model.Transaction.Unsigned;
 using NewTransactionModel.SpecificPayloads;
 
 var dbContext = new HushNetworkDbContext();
@@ -19,7 +20,7 @@ dbContext.Database.Migrate();
 // var nbrTransactionsPerBlock = 1000000;
 var nbrTransactionsPerBlock = 1;
 
-var userKeys = new SigningKeys();
+var userKeys = new HushNetwork.DigitalSignature();
 
 var transactions = new ConcurrentBag<AbstractTransaction>();
 

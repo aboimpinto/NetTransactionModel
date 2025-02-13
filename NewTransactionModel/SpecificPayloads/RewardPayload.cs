@@ -1,8 +1,8 @@
-using NewTransactionModel.Model;
-using NewTransactionModel.Model.Transaction;
-using NewTransactionModel.Model.Transaction.Unsigned;
+using HushNetwork.Model;
+using HushNetwork.Model.Transaction;
+using HushNetwork.Model.Transaction.Unsigned;
 
-namespace NewTransactionModel.SpecificPayloads;
+namespace HushNetwork.SpecificPayloads;
 
 public record RewardPayload(string Token, int Precision, string Amount) : ITransactionPayloadKind;
 
