@@ -13,7 +13,6 @@ using NewTransactionModel;
 using NewTransactionModel.SpecificPayloads;
 
 var dbContext = new HushNetworkDbContext();
-// var isDatabaseCreated = dbContext.Database.EnsureCreated();
 dbContext.Database.Migrate();
 
 // var nbrTransactionsPerBlock = 10000000;
@@ -60,19 +59,13 @@ var genesisBlock = UnsignedBlockHandler.CreateGenesis(
 
 // Transaction example usage
 // Step 1: Client creates an unsigned transaction
-var unsignedRewardTransaction = RewardPayloadHandler
-    .CreateRewardTransaction("HUSH", DecimalStringConverter.DecimalToString(5m));
-
 // Step 2: Client signs the transaction
-var signedRewardTransaction = unsignedRewardTransaction
-    .SignByUser(userKeys.PublicAddress, userKeys.PrivateKey);
-
 // Step 3: Validator validates the transaction
-var validatedRewardTransaction = signedRewardTransaction
+var validatedRewardTransaction = RewardPayloadHandler
+    .CreateRewardTransaction("HUSH", DecimalStringConverter.DecimalToString(5m))
+    .SignByUser(userKeys.PublicAddress, userKeys.PrivateKey)
     .SignByValidator(userKeys.PublicAddress, userKeys.PrivateKey);
 
-// var rewardTransactionJson = JsonSerializer.Serialize(validatedTransaction);
-// Console.WriteLine(rewardTransactionJson);
 
 Console.WriteLine();
 Console.WriteLine();
@@ -103,10 +96,8 @@ Console.WriteLine($"Elapsed time for adding EmptyTransactions to the block: {ela
 Console.WriteLine($"Elapsed time for adding EmptyTransactions to the block (Stopwatch): {stopwatchAdd.ElapsedMilliseconds} ms"); 
 
 
-var signedBlock = withAllTransactions
-    .SignIt(userKeys.PublicAddress, userKeys.PrivateKey);
-
-var finalizedBlock = signedBlock
+var finalizedBlock = withAllTransactions
+    .SignIt(userKeys.PublicAddress, userKeys.PrivateKey)
     .FinalizeIt();
 
 Console.WriteLine(finalizedBlock.ToJson());
