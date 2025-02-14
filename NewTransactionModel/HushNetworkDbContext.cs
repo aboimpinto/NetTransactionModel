@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using HushNetwork.Model.Block;
-using HushNetwork.Model.Block.Finalized;
+using HushNetwork.Shared.Model.Block;
+using HushNetwork.Shared.Model.Block.Finalized;
 
 namespace NewTransactionModel;
 

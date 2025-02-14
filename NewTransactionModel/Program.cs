@@ -1,16 +1,16 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
-using HushNetwork.Model;
-using HushNetwork.Model.Block;
-using HushNetwork.Model.Block.Signed;
-using HushNetwork.Model.Block.Unsigned;
-using HushNetwork.Model.Transaction;
-using HushNetwork.Model.Transaction.Signed;
-using HushNetwork.Model.Transaction.Unsigned;
 using HushNetwork.SpecificPayloads;
 using NewTransactionModel;
 using NewTransactionModel.SpecificPayloads;
+using HushNetwork.Shared.Model;
+using HushNetwork.Shared.Model.Transaction;
+using HushNetwork.Shared.Model.Transaction.Unsigned;
+using HushNetwork.Shared.Model.Transaction.Signed;
+using HushNetwork.Shared.Model.Block;
+using HushNetwork.Shared.Model.Block.Unsigned;
+using HushNetwork.Shared.Model.Block.Signed;
 
 var dbContext = new HushNetworkDbContext();
 dbContext.Database.Migrate();

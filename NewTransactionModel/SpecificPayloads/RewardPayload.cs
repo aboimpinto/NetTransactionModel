@@ -1,6 +1,6 @@
-using HushNetwork.Model;
-using HushNetwork.Model.Transaction;
-using HushNetwork.Model.Transaction.Unsigned;
+using HushNetwork.Shared.Model;
+using HushNetwork.Shared.Model.Transaction;
+using HushNetwork.Shared.Model.Transaction.Unsigned;
 
 namespace HushNetwork.SpecificPayloads;
 

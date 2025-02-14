@@ -1,4 +1,4 @@
-using HushNetwork.Model.Transaction;
+using HushNetwork.Shared.Model.Transaction;
 
 namespace NewTransactionModel.SpecificPayloads;
 

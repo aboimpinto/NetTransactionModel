@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HushNetwork.Model\HushNetwork.Model.csproj" />
+    <ProjectReference Include="..\HushNetwork.Shared.Model\HushNetwork.Shared.Model.csproj" />
   </ItemGroup>
 
 </Project>
